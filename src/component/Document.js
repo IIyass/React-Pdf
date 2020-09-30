@@ -7,12 +7,13 @@ import {
   StyleSheet,
   Font,
   Image,
+  Link,
 } from "@react-pdf/renderer";
 import styled from "@react-pdf/styled-components";
-import Data from "../data/pdfJson1";
+import Data from "../data/pdfJson1-1";
 
 const CardContainer = styled.View`
-  height: 10vh;
+  height: 11vh;
   width: 22%;
   border: 1px solid #7d7d7d;
   text-align: center;
@@ -21,11 +22,12 @@ const CardContainer = styled.View`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
+  margin-top: 15px;
 `;
 const ImageContainer = styled.Image`
   width: 100%;
-  height: 50%;
+  height: 3vh;
   margin: 0 auto;
 `;
 
@@ -44,17 +46,74 @@ const CardsWrapper = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+  margin: 0;
 `;
+
+const FirstPage = styled.View`
+  width: 100vw;
+  height: 90vh;
+`;
+const TopSection = styled.View`
+  width: 31vw;
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+`;
+const Logo = styled.Image`
+  width: 5vw;
+  height: 5vh;
+`;
+
+const TopText = styled.Text`
+  font-family: Oswald;
+  font-size: 24px;
+  color: #7d7d7d;
+`;
+const ButtomSection = styled.Text`
+  font-family: Oswald;
+  color: #7d7d7d;
+  position: absolute;
+  font-size: 24px;
+  bottom: 40;
+  left: 30%;
+`;
+
+const Title = styled.Text`
+  height: 11vh;
+  font-family: Oswald;
+  font-size: 20px;
+  color: #000;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+`;
+
 const Quixote = () => (
   <Document>
     <Page style={styles.body}>
+      <FirstPage>
+        <TopSection>
+          <TopText> {Data.distributer}</TopText>
+          <Logo source={Data.logo} />
+        </TopSection>
+        <ButtomSection>{Data.package}</ButtomSection>
+      </FirstPage>
+      <Title>{Data.title}</Title>
+      {/* <View style={{ height: "11vh", marginBottom: "30px" }}></View> */}
       <CardsWrapper>
-        {Data.map(({ company, index, location, image }) => {
+        {Data.releases.map(({ index, company, address, image, url }) => {
           return (
             <CardContainer key={index} style={styles.card}>
-              <ImageContainer source={image} />
-              <Company>{company}</Company>
-              <Location>{location}</Location>
+              <Link src={url}>
+                <ImageContainer source={image} />
+              </Link>
+              <Link src={url}>
+                <Company>{company}</Company>
+              </Link>
+              <Link src={url}>
+                <Location>{address}</Location>
+              </Link>
             </CardContainer>
           );
         })}
